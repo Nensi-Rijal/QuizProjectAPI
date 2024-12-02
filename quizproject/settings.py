@@ -140,6 +140,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # For React development
+    "https://quizjui.netlify.app/"
 ]
 
 CORS_ALLOW_METHODS = [
