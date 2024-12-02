@@ -46,7 +46,7 @@ class SubmitQuizApiView(APIView):
         print("Request data:", request.data)
         quiz = get_object_or_404(Quiz, id=quiz_id)
         user = request.user 
-        
+        time_taken = request.data.get('time_taken')
         serializer = SubmitQuizserializer(data=request.data,context={"quiz_id": quiz_id})
         if serializer.is_valid():
             submitted_data = serializer.validate_answers(request.data['answers'])
@@ -59,7 +59,7 @@ class SubmitQuizApiView(APIView):
                 selected_answer = item['answer'] 
                 question = get_object_or_404(Question, id=question_id,quiz=quiz)
                 correct_answer_ids = set(Answer.objects.filter(question=question, is_correct=True).values_list("id", flat=True))
-
+                
                 # Handle multiple answers
                 if isinstance(selected_answer, list):
                     if set(selected_answer) == correct_answer_ids:
@@ -83,7 +83,8 @@ class SubmitQuizApiView(APIView):
                 'message': 'Quiz submitted Successfully',
                 'score': score,
                 'correct_answers':correct_answers,
-                'total_questions':total_questions   
+                'total_questions':total_questions,
+                'time_taken':time_taken
             }, status=status.HTTP_200_OK) 
     
         else:
