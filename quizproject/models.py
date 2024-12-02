@@ -33,7 +33,7 @@ class Answer(models.Model):
         (SELECT_WORD, 'Select a Word'),
     ]
 
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name='answers')
     answer = models.CharField(max_length=255) #answer text
     is_correct = models.BooleanField(default=False) #initialized to false
     answer_type = models.CharField(

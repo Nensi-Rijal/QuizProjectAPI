@@ -25,14 +25,14 @@ class QuizDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, quiz_id):
         quiz = get_object_or_404(Quiz, id=quiz_id)
-        questions = Question.objects.filter(quiz=quiz).prefetch_related('answer_set')
+        questions = Question.objects.filter(quiz=quiz).prefetch_related('answers')
         quiz_data = QuizSerializer(quiz).data
 
         #add questions and answers to the response
         quiz_data['questions'] = []
         for question in questions:
             question_data = QuestionSerializer(question).data
-            answers = Answer.objects.filter(question=question)
+            answers = question.answers.all()
             question_data['answers']=AnswerSerializer(answers,many=True).data
             quiz_data['questions'].append(question_data)
         
@@ -60,10 +60,15 @@ class SubmitQuizApiView(APIView):
                 question = get_object_or_404(Question, id=question_id,quiz=quiz)
                 correct_answer_ids = set(Answer.objects.filter(question=question, is_correct=True).values_list("id", flat=True))
 
-                #to check if the selected answers match the correct answers
-                if {selected_answer} == correct_answer_ids:
-                    score += 1
-                    correct_answers += 1
+                # Handle multiple answers
+                if isinstance(selected_answer, list):
+                    if set(selected_answer) == correct_answer_ids:
+                        score += 1
+                        correct_answers += 1
+                else:  # Single answer
+                    if {selected_answer} == correct_answer_ids:
+                        score += 1
+                        correct_answers += 1
         
             #save user statisctics
             UserStat.objects.create(

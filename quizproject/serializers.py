@@ -82,7 +82,7 @@ class UserStatSerializer(serializers.ModelSerializer):
 class SubmitQuizserializer(serializers.Serializer):
     answers = serializers.ListField(
         child=serializers.DictField(
-            child=serializers.IntegerField(),
+            child=serializers.JSONField()  # To allow flexibility for both single and multiple answers
         )
     )
 
@@ -98,4 +98,28 @@ class SubmitQuizserializer(serializers.Serializer):
         if not question_ids.issubset(answered_question_ids):
             raise serializers.ValidationError("Not all questions have been answered.")
         
+        # Check answer types: single vs multiple
+        for answer in value:
+            question = questions.get(id=answer['question'])
+            if question:
+                # Check if the question expects multiple answers
+                is_multiple = any(a.answer_type == 'multiple' for a in question.answers.all())
+
+                # If the question is for multiple answers
+                if is_multiple:
+                    # Validate if it's a list of integers for multiple answers
+                    if not isinstance(answer['answer'], list):
+                        raise serializers.ValidationError(f"Question {answer['question']} expects multiple answers (list).")
+                    if not all(isinstance(a, int) for a in answer['answer']):
+                        raise serializers.ValidationError(f"Question {answer['question']} answers must be a list of integers.")
+                    if len(answer['answer']) < 1:
+                        raise serializers.ValidationError(f"Question {answer['question']} requires at least one answer.")
+
+                # If the question is for a single answer
+                else:
+                    # Validate if it's a single integer for a single answer
+                    if isinstance(answer['answer'], list):
+                        raise serializers.ValidationError(f"Question {answer['question']} expects a single answer, not a list.")
+                    if not isinstance(answer['answer'], int):  # Answer should be an integer (the ID)
+                        raise serializers.ValidationError(f"Question {answer['question']} expects an integer answer.")
         return value
