@@ -83,7 +83,7 @@ class SubmitQuizApiView(APIView):
                 'message': 'Quiz submitted Successfully',
                 'score': score,
                 'correct_answers':correct_answers,
-                'total_questions':total_questions,
+                'total_questions':total_questions   
             }, status=status.HTTP_200_OK) 
     
         else:
