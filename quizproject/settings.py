@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure--#2x^hdne7vp+ydg15ys5m2fm+--4e+t)us=7$!pc4(3_)8(7h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app','quizjui.netlify.app']
+#to run locally remove the allowed_host and debug to true 
+ALLOWED_HOSTS = ['.vercel.app','quizjui.netlify.app',]
+
 
 
 # Application definition
@@ -176,3 +178,4 @@ LOGGING = {
         },
     },
 }
+CORS_ALLOW_ALL_ORIGINS = True
