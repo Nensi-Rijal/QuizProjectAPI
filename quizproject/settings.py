@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--#2x^hdne7vp+ydg15ys5m2fm+--4e+t)us=7$!pc4(3_)8(7h
 DEBUG = False
 
 #to run locally remove the allowed_host and debug to true 
-ALLOWED_HOSTS = ['.vercel.app','quizjui.netlify.app','https://quiz-project-api.vercel.app/quizzes/']
+ALLOWED_HOSTS = ['.vercel.app','quizjui.netlify.app','https://quiz-project-api.vercel.app/quizzes/','https://quiz-project-api.vercel.app']
 
 
 
@@ -178,4 +178,5 @@ LOGGING = {
         },
     },
 }
+
 CORS_ALLOW_ALL_ORIGINS = True

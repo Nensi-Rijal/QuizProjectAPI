@@ -8,6 +8,8 @@ from .models import Quiz, Question, Answer, UserStat
 from .serializers import QuizSerializer, QuestionSerializer, AnswerSerializer, UserStatSerializer,SubmitQuizserializer
 from django.utils.timezone import now
 from datetime import timedelta
+from django.views.decorators.csrf import csrf_exempt
+
 
 #view to fetch the quiz list
 class QuizListAPIView(APIView):
@@ -42,6 +44,7 @@ class QuizDetailAPIView(APIView):
 class SubmitQuizApiView(APIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
+    @csrf_exempt
     def post(self, request, quiz_id):
         print("Request data:", request.data)
         quiz = get_object_or_404(Quiz, id=quiz_id)
