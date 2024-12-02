@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--#2x^hdne7vp+ydg15ys5m2fm+--4e+t)us=7$!pc4(3_)8(7h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['quiz-project-api.vercel.app','quizjui.netlify.app']
+ALLOWED_HOSTS = ['quiz-project-dkcppgeh7-nensis-projects-1f47c020.vercel.app','quizjui.netlify.app']
 
 
 # Application definition
