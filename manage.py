@@ -2,7 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from django.core.management import execute_from_command_line
+from django.core.wsgi import get_wsgi_application
 
 def main():
     """Run administrative tasks."""
@@ -16,7 +17,7 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
+app = get_wsgi_application()
 
 if __name__ == '__main__':
     main()
