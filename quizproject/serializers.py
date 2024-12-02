@@ -85,7 +85,7 @@ class SubmitQuizserializer(serializers.Serializer):
             child=serializers.JSONField()  # To allow flexibility for both single and multiple answers
         )
     )
-
+    time_taken = serializers.IntegerField()
     def validate_answers(self,value):
         if not value:
             raise serializers.ValidationError("No answers submitted")
