@@ -144,8 +144,8 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # For React development
-    "https://quizjui.netlify.app",
-    "https://quiz-project-om56t19mz-nensis-projects-1f47c020.vercel.app"
+    'https://quizjui.netlify.app',
+    "https://quiz-project-api.vercel.app/quizzes"
 ]
 
 
