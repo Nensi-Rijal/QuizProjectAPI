@@ -90,7 +90,9 @@ class SubmitQuizserializer(serializers.Serializer):
         if not value:
             raise serializers.ValidationError("No answers submitted")
         
-        quiz_id = self.context['quiz_id']  # pass quiz_id in the context
+        quiz_id = self.context.get('quiz_id')  # pass quiz_id in the context
+        if not quiz_id:
+            raise serializers.ValidationError("Quiz ID is missing from context.")
         questions = Question.objects.filter(quiz_id=quiz_id)
         answered_question_ids = {answer['question'] for answer in value}  # Collect question IDs from answers
         question_ids = {q.id for q in questions}  # Collect all question IDs in the quiz
